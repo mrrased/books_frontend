@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client';
 
 import * as React from 'react';
@@ -22,6 +23,20 @@ interface SignupFormInputs {
   password?: string;
 }
 
+interface SuccessResponse {
+  data: {
+    message: string;
+  };
+}
+
+interface ErrorResponse {
+  error: {
+    data: {
+      message: string;
+    };
+  };
+}
+
 export function SignupForm({ className, ...props }: UserAuthFormProps) {
   const {
     register,
@@ -37,7 +52,7 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}$/;
     console.log(data);
 
-    if (!passwordRegex.test(data.password)) {
+    if (!passwordRegex.test(data.password!)) {
       toast.error(
         'Invalid password! Password must contain at least 8 characters including one uppercase letter, one lowercase letter, one digit, and one special character.'
       );
@@ -46,12 +61,12 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
     const result = await createUser(data);
     console.log(result);
 
-    if (result) {
+    if ('data' in result) {
       console.log('inside condition');
-      toast.success(result.data.message);
+      toast.success(result.data.message!);
     } else if ('error' in result) {
-      if ('data' in result.error) {
-        const errorData = result.error.data;
+      if ('error' in result.error) {
+        const errorData = result.error.data as any;
         toast.error(errorData.message);
       }
     }
