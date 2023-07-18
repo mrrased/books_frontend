@@ -6,6 +6,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { useLoginUserMutation } from '../Products/ProductApi';
+import axios from 'axios';
 
 interface IUserState {
   user: {
@@ -18,8 +20,8 @@ interface IUserState {
 
 interface ICredential {
   email: string;
-  number: string;
-  password: string;
+  phoneNumber?: string;
+  password?: string | undefined;
 }
 
 const initialState: IUserState = {
@@ -32,16 +34,39 @@ const initialState: IUserState = {
 };
 
 export const createUser = createAsyncThunk(
-  'user/createUser',
-  async ({ email, password }: ICredential) => {
-    const data = await createUserWithEmailAndPassword(auth, email, password);
+  '/users/signup',
+  async ({ email, password, phoneNumber }: ICredential) => {
+    const data = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password as string
+    );
+
+    const datas = { email, password, phoneNumber };
+    const result = await axios.post(
+      'http://localhost:5000/api/v1/users/signup',
+      datas
+    );
+    console.log(data);
+    const response = result.data.data;
     return data.user.email;
   }
 );
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async ({ email, password }: ICredential) => {
-    const data = await signInWithEmailAndPassword(auth, email, password);
+    const data = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password as string
+    );
+    const datas = { email, password };
+    const result = await axios.post(
+      'http://localhost:5000/api/v1/auth/login',
+      datas
+    );
+
+    const response = await result.data.data.email;
     return data.user.email;
   }
 );
@@ -51,7 +76,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<string | null>) => {
-      state.user.email = action.payload;
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          email: action.payload,
+        },
+      };
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;

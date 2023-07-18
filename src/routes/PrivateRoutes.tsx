@@ -15,7 +15,7 @@ const PrivateRoutes = ({ children }: IProps) => {
     return <p>loading...</p>;
   }
   if (!user.email && !isLoading) {
-    return <Navigate to="login" state={{ path: pathname }} />;
+    return <Navigate to="/login" state={{ path: pathname }} />;
   }
   return children;
 };

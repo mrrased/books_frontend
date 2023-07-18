@@ -34,6 +34,13 @@ const productApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    loginUser: builder.mutation({
+      query: (data) => ({
+        url: `/auth/login`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -44,4 +51,5 @@ export const {
   usePostCommentMutation,
   usePostBookMutation,
   useCreateUserMutation,
+  useLoginUserMutation,
 } = productApi;

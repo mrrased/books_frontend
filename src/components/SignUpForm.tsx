@@ -10,10 +10,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { createUser } from '@/redux/Features/user/userSlice';
-import { useAppDispatch } from '@/redux/hooks';
 import { useCreateUserMutation } from '@/redux/Features/Products/ProductApi';
 import { toast, Toaster } from 'react-hot-toast';
+import { createUser } from '@/redux/Features/user/userSlice';
+import { useAppDispatch } from '@/redux/hooks';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -23,20 +23,6 @@ interface SignupFormInputs {
   password?: string;
 }
 
-interface SuccessResponse {
-  data: {
-    message: string;
-  };
-}
-
-interface ErrorResponse {
-  error: {
-    data: {
-      message: string;
-    };
-  };
-}
-
 export function SignupForm({ className, ...props }: UserAuthFormProps) {
   const {
     register,
@@ -44,8 +30,13 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
     formState: { errors },
   } = useForm<SignupFormInputs>();
 
-  const [createUser, { isSuccess, isLoading, isError }] =
-    useCreateUserMutation();
+  // const [createUser, { isSuccess, isLoading, isError }] =
+  //   useCreateUserMutation();
+  const dispatch = useAppDispatch();
+
+  // console.log(isSuccess);
+  // console.log(isLoading);
+  // console.log(isError);
 
   const onSubmit = async (data: SignupFormInputs) => {
     const passwordRegex =
@@ -56,13 +47,18 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
       toast.error(
         'Invalid password! Password must contain at least 8 characters including one uppercase letter, one lowercase letter, one digit, and one special character.'
       );
-      return; // Exit the function if the password is invalid
+      return;
     }
-    const result = await createUser(data);
+    const result = await dispatch(
+      createUser({
+        email: data.email,
+        password: data.password,
+        phoneNumber: data.phoneNumber,
+      })
+    );
     console.log(result);
 
     if ('data' in result) {
-      console.log('inside condition');
       toast.success(result.data.message!);
     } else if ('error' in result) {
       if ('error' in result.error) {
