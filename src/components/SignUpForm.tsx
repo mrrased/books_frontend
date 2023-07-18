@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import * as React from 'react';
@@ -11,13 +12,14 @@ import { FcGoogle } from 'react-icons/fc';
 import { createUser } from '@/redux/Features/user/userSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { useCreateUserMutation } from '@/redux/Features/Products/ProductApi';
+import { toast, Toaster } from 'react-hot-toast';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
 interface SignupFormInputs {
   email: string;
   phoneNumber: string;
-  password: string;
+  password?: string;
 }
 
 export function SignupForm({ className, ...props }: UserAuthFormProps) {
@@ -31,16 +33,33 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
     useCreateUserMutation();
 
   const onSubmit = async (data: SignupFormInputs) => {
+    const passwordRegex =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()]).{8,}$/;
     console.log(data);
-    const response = await createUser(data);
 
-    if (response) {
-      console.log(response);
+    if (!passwordRegex.test(data.password)) {
+      toast.error(
+        'Invalid password! Password must contain at least 8 characters including one uppercase letter, one lowercase letter, one digit, and one special character.'
+      );
+      return; // Exit the function if the password is invalid
+    }
+    const result = await createUser(data);
+    console.log(result);
+
+    if (result) {
+      console.log('inside condition');
+      toast.success(result.data.message);
+    } else if ('error' in result) {
+      if ('data' in result.error) {
+        const errorData = result.error.data;
+        toast.error(errorData.message);
+      }
     }
   };
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
+      <Toaster />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
