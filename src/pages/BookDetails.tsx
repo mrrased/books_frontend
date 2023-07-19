@@ -1,9 +1,9 @@
-import ProductReview from '@/components/ProductReview';
+import BookReview from '@/components/BookReview';
 import { Button } from '@/components/ui/button';
 import { useSingleProductQuery } from '@/redux/Features/Products/ProductApi';
 import { useParams } from 'react-router-dom';
 
-export default function ProductDetails() {
+export default function BookDetails() {
   const { id } = useParams();
 
   const { data, isLoading, error } = useSingleProductQuery(id);
@@ -30,7 +30,7 @@ export default function ProductDetails() {
           </div>
         </div>
       </div>
-      <ProductReview id={id} />
+      <BookReview id={id} />
     </>
   );
 }
