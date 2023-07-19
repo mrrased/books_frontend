@@ -18,7 +18,7 @@ import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/Features/user/userSlice';
 
 export default function Navbar() {
-  const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.reducer.user);
 
   const dispatch = useAppDispatch();
   const handleLogout = () => {

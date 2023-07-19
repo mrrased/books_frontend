@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 export default function Login() {
   // const [loginUser, { isLoading, isSuccess, isError }] = useLoginUserMutation();
-  const { user, isLoading } = useAppSelector((state) => state.user);
+  const { user, isLoading } = useAppSelector((state) => state.reducer.user);
 
   const navigate = useNavigate();
   const location = useLocation();

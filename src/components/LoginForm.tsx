@@ -30,7 +30,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   // const [loginUser, { isSuccess, isLoading, isError }] = useLoginUserMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user, isLoading } = useAppSelector((state) => state.user);
+  const { user, isLoading } = useAppSelector((state) => state.reducer.user);
 
   const onSubmit = async (data: LoginFormInputs) => {
     await dispatch(loginUser(data));
