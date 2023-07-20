@@ -3,7 +3,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import { usePostBookMutation } from '@/redux/Features/Products/ProductApi';
+import { usePostBookMutation } from '@/redux/Features/Books/BooksApi';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface formType {
@@ -13,7 +13,7 @@ interface formType {
   year: string;
 }
 
-export default function Checkout() {
+export default function AddNewBook() {
   const [data, setData] = useState<formType>({
     title: '',
     author: '',

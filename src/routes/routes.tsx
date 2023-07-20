@@ -3,11 +3,12 @@ import App from '@/App';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
 import Home from '@/pages/Home';
-import Checkout from '@/pages/Checkout';
 import Signup from '@/pages/Signup';
 import BookDetails from '@/pages/BookDetails';
 import PrivateRoutes from './PrivateRoutes';
 import Books from '@/pages/Books';
+import AddNewBook from '@/pages/AddNewBook';
+import EditBook from '@/components/EditBook';
 
 const routes = createBrowserRouter([
   {
@@ -27,10 +28,18 @@ const routes = createBrowserRouter([
         element: <BookDetails />,
       },
       {
-        path: '/checkout',
+        path: '/add-new-book',
         element: (
           <PrivateRoutes>
-            <Checkout />
+            <AddNewBook />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: '/edit-book/:id',
+        element: (
+          <PrivateRoutes>
+            <EditBook />
           </PrivateRoutes>
         ),
       },

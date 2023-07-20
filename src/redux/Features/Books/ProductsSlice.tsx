@@ -13,7 +13,7 @@ const initialState: IProduct = {
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: 'books',
   initialState,
   reducers: {
     toggleState: (state) => {

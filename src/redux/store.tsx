@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './Features/cart/cartSlice';
-import productSlice from './Features/Products/ProductsSlice';
+import productSlice from './Features/Books/ProductsSlice';
 import { api } from './api/apiSlice';
 import userReducer from './Features/user/userSlice';
 import storage from 'redux-persist/lib/storage';

@@ -1,12 +1,14 @@
 import { api } from '@/redux/api/apiSlice';
 
-const productApi = api.injectEndpoints({
+const booksApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
+    getBooks: builder.query({
       query: () => '/books',
+      providesTags: ['reviews', 'updatebook'],
     }),
-    singleProduct: builder.query({
+    singleBook: builder.query({
       query: (id) => ({ url: `/books/${id}` }),
+      providesTags: ['updatebook'],
     }),
     postBook: builder.mutation({
       query: (data) => ({
@@ -15,7 +17,22 @@ const productApi = api.injectEndpoints({
         body: data,
       }),
     }),
-    postComment: builder.mutation({
+    updateBook: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/books/${id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['updatebook'],
+    }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['updatebook'],
+    }),
+    postReview: builder.mutation({
       query: ({ id, data }) => ({
         url: `/users/review/${id}`,
         method: 'POST',
@@ -23,7 +40,7 @@ const productApi = api.injectEndpoints({
       }),
       invalidatesTags: ['reviews'],
     }),
-    getComment: builder.query({
+    getReviews: builder.query({
       query: (id) => ({ url: `/users/review/${id}` }),
       providesTags: ['reviews'],
     }),
@@ -45,11 +62,13 @@ const productApi = api.injectEndpoints({
 });
 
 export const {
-  useGetCommentQuery,
-  useGetProductsQuery,
-  useSingleProductQuery,
-  usePostCommentMutation,
+  useGetReviewsQuery,
+  useGetBooksQuery,
+  useSingleBookQuery,
+  usePostReviewMutation,
   usePostBookMutation,
   useCreateUserMutation,
   useLoginUserMutation,
-} = productApi;
+  useUpdateBookMutation,
+  useDeleteBookMutation,
+} = booksApi;

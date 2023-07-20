@@ -5,43 +5,32 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 import {
-  useGetCommentQuery,
-  usePostCommentMutation,
-} from '@/redux/Features/Products/ProductApi';
+  useGetReviewsQuery,
+  usePostReviewMutation,
+} from '@/redux/Features/Books/BooksApi';
 import { useAppSelector } from '@/redux/hooks';
 import { Toaster, toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   id: string | undefined;
 }
 
-interface IReview {
-  data: {
-    message: string;
-  };
-  error?: {
-    message: string;
-  };
-}
-
 export default function BookReview({ id }: IProps) {
   const [inputValue, setInputValue] = useState<string>('');
 
-  const { data } = useGetCommentQuery(id, {
+  const { data } = useGetReviewsQuery(id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
 
   const [postComment, { isLoading, isError, isSuccess }] =
-    usePostCommentMutation();
+    usePostReviewMutation();
 
   console.log(isError);
   console.log(isSuccess);
   console.log(isLoading, 'this is a review page');
 
   const { user } = useAppSelector((state) => state.reducer.user);
-  const navigate = useNavigate();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -92,13 +81,13 @@ export default function BookReview({ id }: IProps) {
           </Button>
         </form>
         <div className="mt-10">
-          {data?.data?.reviews?.map((comment: string, index: number) => (
+          {data?.data?.reviews?.map((review: string, index: number) => (
             <div key={index} className="flex gap-3 items-center mb-5">
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <p>{comment}</p>
+              <p>{review}</p>
             </div>
           ))}
         </div>

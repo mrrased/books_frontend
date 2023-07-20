@@ -4,20 +4,15 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
 
-import { useGetProductsQuery } from '@/redux/Features/Products/ProductApi';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useGetBooksQuery } from '@/redux/Features/Books/BooksApi';
+import { useAppDispatch } from '@/redux/hooks';
 import { IBook } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
 
 export default function Books() {
-  // const [data, setData] = useState<IProduct[]>([]);
-  // useEffect(() => {
-  //   fetch('.http://localhost:5000/books')
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data));
-  // }, []);
-
-  const { data, isLoading } = useGetProductsQuery(undefined);
+  const { data, isLoading } = useGetBooksQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 30000,
+  });
 
   console.log(data?.data);
 
