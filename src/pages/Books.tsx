@@ -47,18 +47,18 @@ export default function Books() {
   //   productsData = data?.data;
   // }
 
-  // const handleWish = (id: string) => {
-  //   if (!user.email) {
-  //     toast.error('First login then review');
-  //     return;
-  //   }
-  //   const options = {
-  //     email: user.email,
-  //     data: { wishList: { _id: id } },
-  //   };
-  //   console.log(options);
-  //   userWishList(options);
-  // };
+  const handleWish = (id: string) => {
+    if (!user.email) {
+      toast.error('First login then review');
+      return;
+    }
+    const options = {
+      email: user.email,
+      data: { wishList: { _id: id } },
+    };
+    console.log(options);
+    userWishList(options);
+  };
 
   return (
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
@@ -86,7 +86,7 @@ export default function Books() {
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
         {data?.data?.map((book: IBook) => (
-          <BookCard book={book} />
+          <BookCard book={book} handleWish={handleWish} />
         ))}
       </div>
     </div>
