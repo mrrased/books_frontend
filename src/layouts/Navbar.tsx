@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/Features/user/userSlice';
+import { SheetTrigger } from '@/components/ui/sheet';
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.reducer.user);
@@ -94,9 +95,6 @@ export default function Navbar() {
                         Logout
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem className="cursor-pointer">
-                      WishList
-                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </li>

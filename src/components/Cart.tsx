@@ -22,17 +22,16 @@ import {
 
 export default function Cart() {
   const { products, total } = useAppSelector((state) => state.cart);
+
   const dispatch = useAppDispatch();
   return (
     <Sheet>
       <SheetTrigger>
-        <Button variant="ghost">
-          <HiOutlineShoppingCart size="25" />
-        </Button>
+        <Button variant="ghost">wishList</Button>
       </SheetTrigger>
       <SheetContent className="overflow-auto relative">
         <SheetHeader>
-          <SheetTitle>Cart</SheetTitle>
+          <SheetTitle>Wish List</SheetTitle>
           <h1>Total: {total.toFixed(2)}</h1>
         </SheetHeader>
         <div className="space-y-5">

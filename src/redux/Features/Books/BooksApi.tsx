@@ -65,6 +65,9 @@ const booksApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    getUserWishList: builder.query({
+      query: (email) => ({ url: `/users/wishList/${email}` }),
+    }),
   }),
 });
 
