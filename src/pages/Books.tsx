@@ -1,12 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import BookCard from '@/components/BookCard';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
 
-import { useGetBooksQuery } from '@/redux/Features/Books/BooksApi';
-import { useAppDispatch } from '@/redux/hooks';
+import {
+  useGetBooksQuery,
+  useUserWishListMutation,
+} from '@/redux/Features/Books/BooksApi';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { IBook } from '@/types/globalTypes';
+import { toast } from 'react-hot-toast';
 
 export default function Books() {
   const { data, isLoading } = useGetBooksQuery(undefined, {
@@ -14,12 +19,14 @@ export default function Books() {
     pollingInterval: 30000,
   });
 
-  console.log(data?.data);
+  const [userWishList] = useUserWishListMutation();
 
-  const { toast } = useToast();
+  console.log(data?.data);
 
   // const { priceRange, status } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
+
+  const { user } = useAppSelector((state) => state.reducer.user);
 
   const handleSlider = (value: number[]) => {
     console.log('set price');
@@ -39,6 +46,19 @@ export default function Books() {
   // } else {
   //   productsData = data?.data;
   // }
+
+  // const handleWish = (id: string) => {
+  //   if (!user.email) {
+  //     toast.error('First login then review');
+  //     return;
+  //   }
+  //   const options = {
+  //     email: user.email,
+  //     data: { wishList: { _id: id } },
+  //   };
+  //   console.log(options);
+  //   userWishList(options);
+  // };
 
   return (
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">

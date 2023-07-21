@@ -95,7 +95,7 @@ export default function Navbar() {
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem className="cursor-pointer">
-                      Subscription
+                      WishList
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
