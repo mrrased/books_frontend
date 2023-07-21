@@ -10,13 +10,12 @@ import {
   DropdownMenuContent,
 } from '../components/ui/dropdown-menu';
 import { HiOutlineSearch } from 'react-icons/hi';
-import Cart from '../components/Cart';
+import Cart from '../components/WishList';
 import logo from '../assets/images/technet-logo.png';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/Features/user/userSlice';
-import { SheetTrigger } from '@/components/ui/sheet';
 
 export default function Navbar() {
   const { user } = useAppSelector((state) => state.reducer.user);
