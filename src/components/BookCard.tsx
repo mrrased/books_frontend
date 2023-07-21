@@ -1,14 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IBook } from '@/types/globalTypes';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
-import { useUserWishListMutation } from '@/redux/Features/Books/BooksApi';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useEffect, useState } from 'react';
 
 interface IProps {
   book: IBook;
   handleWish: (_id: string) => void;
+  wishData: // some(arg0: (wish: any) => boolean): unknown;
+  | {
+        _id: string;
+        title: string;
+      }[]
+    | null;
 }
 
-export default function BookCard({ book, handleWish }: IProps) {
+export default function BookCard({ book, handleWish, wishData }: IProps) {
+  const [isData, setIsData] = useState(false);
+
+  useEffect(() => {
+    if (wishData) {
+      const hasMatch = wishData.some((wish) => wish._id === book._id);
+      setIsData(hasMatch);
+      console.log(hasMatch, '');
+    }
+  }, [wishData, book._id]);
   return (
     <div>
       <div className="rounded-2xl h-[480px] flex flex-col items-start justify-between p-5 overflow-hidden shadow-md border border-gray-100 hover:shadow-2xl hover:scale-[102%] transition-all gap-2">
@@ -25,7 +43,13 @@ export default function BookCard({ book, handleWish }: IProps) {
           <Link to={`/book-details/${book._id}`}>
             <Button variant="default">Book Details</Button>
           </Link>
-          <p onClick={() => handleWish(book._id)}>wish</p>
+          {isData ? (
+            <FavoriteIcon />
+          ) : (
+            <p onClick={() => handleWish(book._id)}>
+              <FavoriteBorderIcon />
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   Sheet,
@@ -6,24 +7,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
-import {
-  HiMinus,
-  HiOutlinePlus,
-  HiOutlineShoppingCart,
-  HiOutlineTrash,
-} from 'react-icons/hi';
 import { Button } from './ui/button';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { useAppSelector } from '@/redux/hooks';
+import { useGetUserWishListQuery } from '@/redux/Features/Books/BooksApi';
 import {
-  addToCart,
-  removeOne,
-  removeToFromCart,
-} from '@/redux/Features/cart/cartSlice';
+  Key,
+  ReactElement,
+  JSXElementConstructor,
+  ReactFragment,
+  ReactPortal,
+} from 'react';
 
 export default function Cart() {
-  const { products, total } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.reducer.user);
+  const { data } = useGetUserWishListQuery(user?.email);
 
-  const dispatch = useAppDispatch();
   return (
     <Sheet>
       <SheetTrigger>
@@ -31,43 +29,42 @@ export default function Cart() {
       </SheetTrigger>
       <SheetContent className="overflow-auto relative">
         <SheetHeader>
-          <SheetTitle>Wish List</SheetTitle>
-          <h1>Total: {total.toFixed(2)}</h1>
+          <SheetTitle>Wish List: {data?.data?.length}</SheetTitle>
         </SheetHeader>
-        <div className="space-y-5">
-          {products.map((product) => (
-            <div
-              className="border h-44 p-5 flex justify-between rounded-md"
-              key={product.name}
-            >
-              <div className="border-r pr-5 shrink-0">
-                <img src={product?.image} alt="" className="h-full" />
-              </div>
-              <div className="px-2 w-full flex flex-col gap-3">
-                <h1 className="text-2xl self-center">{product?.name}</h1>
-                <p>Quantity: {product.quantity}</p>
-                <p className="text-xl">
-                  Total Price: {(product.price * product.quantity!).toFixed(2)}{' '}
-                  $
-                </p>
-              </div>
-              <div className="border-l pl-5 flex flex-col justify-between">
-                <Button onClick={() => dispatch(addToCart(product))}>
-                  <HiOutlinePlus size="20" />
-                </Button>
-                <Button onClick={() => dispatch(removeOne(product))}>
-                  <HiMinus size="20" />
-                </Button>
-                <Button
+        <div className="space-y-2">
+          {data?.data?.map(
+            (product: {
+              _id: Key | null | undefined;
+              title:
+                | string
+                | number
+                | boolean
+                | ReactElement<any, string | JSXElementConstructor<any>>
+                | ReactFragment
+                | ReactPortal
+                | null
+                | undefined;
+            }) => (
+              <div
+                className="border p-1 flex justify-between rounded-md"
+                key={product._id}
+              >
+                <div className="px-2 w-full flex flex-col gap-3">
+                  <h1 className="text-md text-left">{product?.title}</h1>
+                </div>
+                <div className="border-l pl-5 flex flex-col justify-between">
+                  <p className="hover:underline hover:cursor-pointer">unWish</p>
+                  {/* <Button
                   variant="destructive"
                   className="bg-red-500 hover:bg-red-400"
                   onClick={() => dispatch(removeToFromCart(product))}
                 >
                   <HiOutlineTrash size="20" />
-                </Button>
+                </Button> */}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </SheetContent>
     </Sheet>

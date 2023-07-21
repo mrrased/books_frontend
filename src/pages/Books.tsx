@@ -3,10 +3,12 @@ import BookCard from '@/components/BookCard';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
-import { useToast } from '@/components/ui/use-toast';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import {
   useGetBooksQuery,
+  useGetUserWishListQuery,
   useUserWishListMutation,
 } from '@/redux/Features/Books/BooksApi';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
@@ -14,38 +16,19 @@ import { IBook } from '@/types/globalTypes';
 import { toast } from 'react-hot-toast';
 
 export default function Books() {
-  const { data, isLoading } = useGetBooksQuery(undefined, {
+  const { data } = useGetBooksQuery(undefined, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
 
   const [userWishList] = useUserWishListMutation();
 
-  console.log(data?.data);
-
-  // const { priceRange, status } = useAppSelector((state) => state.product);
-  const dispatch = useAppDispatch();
-
   const { user } = useAppSelector((state) => state.reducer.user);
+  const { data: wishData } = useGetUserWishListQuery(user?.email);
 
   const handleSlider = (value: number[]) => {
     console.log('set price');
   };
-
-  // let productsData;
-
-  // if (status) {
-  //   productsData = data?.data?.filter(
-  //     (item: { status: boolean; price: number }) =>
-  //       item.status === true && item.price < priceRange
-  //   );
-  // } else if (priceRange > 0 && data) {
-  //   productsData = data?.data?.filter(
-  //     (item: { price: number }) => item.price < priceRange
-  //   );
-  // } else {
-  //   productsData = data?.data;
-  // }
 
   const handleWish = (id: string) => {
     if (!user.email) {
@@ -86,7 +69,11 @@ export default function Books() {
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
         {data?.data?.map((book: IBook) => (
-          <BookCard book={book} handleWish={handleWish} />
+          <BookCard
+            book={book}
+            handleWish={handleWish}
+            wishData={wishData ? wishData.data : null}
+          />
         ))}
       </div>
     </div>
