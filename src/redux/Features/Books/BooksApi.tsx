@@ -72,7 +72,7 @@ const booksApi = api.injectEndpoints({
     }),
     deleteWishList: builder.mutation({
       query: ({ email, data }) => ({
-        url: `/books/${email}`,
+        url: `/users/wishList/${email}`,
         method: 'DELETE',
         body: data,
       }),

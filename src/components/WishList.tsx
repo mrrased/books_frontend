@@ -9,7 +9,10 @@ import {
 } from './ui/sheet';
 import { Button } from './ui/button';
 import { useAppSelector } from '@/redux/hooks';
-import { useGetUserWishListQuery } from '@/redux/Features/Books/BooksApi';
+import {
+  useDeleteWishListMutation,
+  useGetUserWishListQuery,
+} from '@/redux/Features/Books/BooksApi';
 import {
   Key,
   ReactElement,
@@ -17,13 +20,34 @@ import {
   ReactFragment,
   ReactPortal,
 } from 'react';
+import { toast } from 'react-hot-toast';
 
 export default function Cart() {
   const { user } = useAppSelector((state) => state.reducer.user);
   const { data } = useGetUserWishListQuery(user?.email);
 
+  const [deleteWishList, { isLoading }] = useDeleteWishListMutation();
+
   const handleUnWishList = (id: string) => {
-    console.log(id, user.email);
+    if (!user.email) {
+      toast.error('First login then delete');
+      return;
+    }
+
+    const options = {
+      email: user.email,
+      data: { _id: id },
+    };
+
+    deleteWishList(options).then((result) => {
+      if ('data' in result) {
+        if (result.data.statusCode === 200) {
+          toast.success('Book has been successfully added to wishlist');
+        }
+      } else {
+        toast.error('Somthing went wrong');
+      }
+    });
   };
   return (
     <Sheet>
