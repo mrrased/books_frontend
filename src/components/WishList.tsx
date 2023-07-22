@@ -22,6 +22,9 @@ export default function Cart() {
   const { user } = useAppSelector((state) => state.reducer.user);
   const { data } = useGetUserWishListQuery(user?.email);
 
+  const handleUnWishList = (id: string) => {
+    console.log(id, user.email);
+  };
   return (
     <Sheet>
       <SheetTrigger>
@@ -53,7 +56,12 @@ export default function Cart() {
                   <h1 className="text-md text-left">{product?.title}</h1>
                 </div>
                 <div className="border-l pl-5 flex flex-col justify-between">
-                  <p className="hover:underline hover:cursor-pointer">unWish</p>
+                  <p
+                    onClick={() => handleUnWishList(product._id as string)}
+                    className="hover:underline hover:cursor-pointer"
+                  >
+                    unWish
+                  </p>
                   {/* <Button
                   variant="destructive"
                   className="bg-red-500 hover:bg-red-400"

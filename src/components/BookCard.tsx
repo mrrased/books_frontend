@@ -27,6 +27,7 @@ export default function BookCard({ book, handleWish, wishData }: IProps) {
       console.log(hasMatch, '');
     }
   }, [wishData, book._id]);
+
   return (
     <div>
       <div className="rounded-2xl h-[480px] flex flex-col items-start justify-between p-5 overflow-hidden shadow-md border border-gray-100 hover:shadow-2xl hover:scale-[102%] transition-all gap-2">
@@ -43,13 +44,15 @@ export default function BookCard({ book, handleWish, wishData }: IProps) {
           <Link to={`/book-details/${book._id}`}>
             <Button variant="default">Book Details</Button>
           </Link>
-          {isData ? (
-            <FavoriteIcon />
-          ) : (
-            <p onClick={() => handleWish(book._id)}>
-              <FavoriteBorderIcon />
-            </p>
-          )}
+          <div className="hover:cursor-pointer">
+            {isData ? (
+              <FavoriteIcon />
+            ) : (
+              <p onClick={() => handleWish(book._id)}>
+                <FavoriteBorderIcon />
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>

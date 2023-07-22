@@ -70,6 +70,14 @@ const booksApi = api.injectEndpoints({
       query: (email) => ({ url: `/users/wishList/${email}` }),
       providesTags: ['wishList'],
     }),
+    deleteWishList: builder.mutation({
+      query: ({ email, data }) => ({
+        url: `/books/${email}`,
+        method: 'DELETE',
+        body: data,
+      }),
+      invalidatesTags: ['wishList'],
+    }),
   }),
 });
 
@@ -85,4 +93,5 @@ export const {
   useDeleteBookMutation,
   useUserWishListMutation,
   useGetUserWishListQuery,
+  useDeleteWishListMutation,
 } = booksApi;

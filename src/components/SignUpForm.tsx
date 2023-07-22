@@ -10,7 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { useCreateUserMutation } from '@/redux/Features/Books/BooksApi';
 import { toast, Toaster } from 'react-hot-toast';
 import { createUser } from '@/redux/Features/user/userSlice';
 import { useAppDispatch } from '@/redux/hooks';
@@ -58,14 +57,16 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
     );
     console.log(result);
 
-    if ('data' in result) {
-      toast.success(result.data.message!);
-    } else if ('error' in result) {
-      if ('error' in result.error) {
-        const errorData = result.error.data as any;
-        toast.error(errorData.message);
-      }
-    }
+    // if ('data' in result) {
+    //   if(result.data.statusCode === 200){
+    //     toast.success('User created Successfully');
+    //   }
+    // } else if ('error' in result) {
+    //   if ('error' in result.error) {
+    //     const errorData = result.error as any;
+    //     toast.error(errorData.message);
+    //   }
+    // }
   };
 
   return (
