@@ -97,19 +97,19 @@ export default function Books() {
     });
   };
 
-  // if (checkData?.novel) {
-  //   booksData = data?.data?.filter(
-  //     (item: { genre: string }) => item.genre.toLowerCase() === 'novel'
-  //   );
-  // } else if (checkData?.fiction) {
-  //   booksData = data?.data?.filter(
-  //     (item: { genre: string }) => item.genre.toLowerCase() === 'fiction'
-  //   );
-  // } else if (checkData?.drama) {
-  //   booksData = data?.data?.filter(
-  //     (item: { genre: string }) => item.genre.toLowerCase() === 'drama'
-  //   );
-  // }
+  if (checkData?.novel) {
+    booksData = data?.data?.filter(
+      (item: { genre: string }) => item.genre.toLowerCase() === 'novel'
+    );
+  } else if (checkData?.fiction) {
+    booksData = data?.data?.filter(
+      (item: { genre: string }) => item.genre.toLowerCase() === 'fiction'
+    );
+  } else if (checkData?.drama) {
+    booksData = data?.data?.filter(
+      (item: { genre: string }) => item.genre.toLowerCase() === 'drama'
+    );
+  }
 
   // const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
   //   // Update the state when the checkbox value changes
