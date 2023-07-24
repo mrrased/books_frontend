@@ -42,7 +42,7 @@ export default function Cart() {
     deleteWishList(options).then((result) => {
       if ('data' in result) {
         if (result.data.statusCode === 200) {
-          toast.success('Book has been successfully added to wishlist');
+          toast.success('Thank You');
         }
       } else {
         toast.error('Somthing went wrong');

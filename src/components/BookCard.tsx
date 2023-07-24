@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useEffect, useState } from 'react';
+import { pink } from '@mui/material/colors';
+import { Tooltip } from '@mui/material';
 
 interface IProps {
   book: IBook;
@@ -45,13 +47,15 @@ export default function BookCard({ book, handleWish, wishData }: IProps) {
             <Button variant="default">Book Details</Button>
           </Link>
           <div className="hover:cursor-pointer">
-            {isData ? (
-              <FavoriteIcon />
-            ) : (
-              <p onClick={() => handleWish(book._id)}>
-                <FavoriteBorderIcon />
-              </p>
-            )}
+            <Tooltip title="Add wish" arrow>
+              {isData ? (
+                <FavoriteIcon sx={{ color: pink[500] }} />
+              ) : (
+                <p onClick={() => handleWish(book._id)}>
+                  <FavoriteBorderIcon sx={{ color: pink[500] }} />
+                </p>
+              )}
+            </Tooltip>
           </div>
         </div>
       </div>
