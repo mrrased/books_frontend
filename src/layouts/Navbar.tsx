@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
@@ -16,16 +18,28 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/Features/user/userSlice';
+import { useState } from 'react';
+import { setSearchTerm } from '@/redux/Features/Books/BooksSlice';
 
 export default function Navbar() {
-  const { user } = useAppSelector((state) => state.reducer.user);
+  const { user } = useAppSelector(
+    (state: { reducer: { user: any } }) => state.reducer.user
+  );
+  const [isTrue, setIsTrue] = useState<boolean>(false);
+  const [isSearch, setIsSearch] = useState();
 
   const dispatch = useAppDispatch();
+
   const handleLogout = () => {
     signOut(auth).then(() => {
       dispatch(setUser(null));
     });
   };
+
+  const handleSearchButtonClick = () => {
+    dispatch(setSearchTerm(isSearch));
+  };
+
   return (
     <nav className="w-full h-16 fixed top backdrop-blur-lg z-10">
       <div className="h-full w-full bg-white/60">
@@ -35,25 +49,54 @@ export default function Navbar() {
           </div>
           <div>
             <ul className="flex items-center">
+              {isTrue ? (
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    placeholder="search"
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setIsSearch(e.target.value)
+                    }
+                    className="w-96 p-1 border border-slate-600"
+                  />
+                  <p
+                    onClick={() => setIsTrue(false)}
+                    className="hover:cursor-pointer hover:underline"
+                  >
+                    X
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <li>
+                    <Button variant="link" asChild>
+                      <Link to="/">Home</Link>
+                    </Button>
+                  </li>
+                  <li>
+                    <Button variant="link" asChild>
+                      <Link to="/books">Books</Link>
+                    </Button>
+                  </li>
+                  <li>
+                    <Button variant="link" asChild>
+                      <Link to="/add-new-book">Add New Book</Link>
+                    </Button>
+                  </li>
+                </>
+              )}
               <li>
-                <Button variant="link" asChild>
-                  <Link to="/">Home</Link>
-                </Button>
-              </li>
-              <li>
-                <Button variant="link" asChild>
-                  <Link to="/books">Books</Link>
-                </Button>
-              </li>
-              <li>
-                <Button variant="link" asChild>
-                  <Link to="/add-new-book">Add New Book</Link>
-                </Button>
-              </li>
-              <li>
-                <Button variant="ghost">
-                  <HiOutlineSearch size="25" />
-                </Button>
+                {isTrue ? (
+                  <Button variant="ghost" onClick={handleSearchButtonClick}>
+                    <HiOutlineSearch size="25" />
+                  </Button>
+                ) : (
+                  <Button variant="ghost" onClick={() => setIsTrue(true)}>
+                    <HiOutlineSearch size="25" />
+                  </Button>
+                )}
               </li>
               <li>
                 <Cart />

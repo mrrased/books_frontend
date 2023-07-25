@@ -10,8 +10,9 @@ import {
 } from '@/redux/Features/Books/BooksApi';
 import { useAppSelector } from '@/redux/hooks';
 import { IBook } from '@/types/globalTypes';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
+import { Puff } from 'react-loader-spinner';
 
 interface formType {
   novel: boolean;
@@ -20,10 +21,14 @@ interface formType {
 }
 
 export default function Books() {
-  const { data } = useGetBooksQuery(undefined, {
+  const searchTerm = useAppSelector((state) => state.books.searchTerm);
+
+  const { data, isLoading } = useGetBooksQuery(searchTerm, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
+
+  console.log(data, 'query data');
 
   const [userWishList] = useUserWishListMutation();
 
@@ -32,7 +37,6 @@ export default function Books() {
 
   const [pre, setPre] = useState();
   const [pro, setPro] = useState();
-  const [isNovelChecked, setIsNovelChecked] = useState(false);
   const [checkData, setCheckData] = useState<formType>({
     novel: false,
     fiction: false,
@@ -121,6 +125,20 @@ export default function Books() {
 
   return (
     <>
+      {isLoading && (
+        <div className="flex justify-center items-center h-screen w-full">
+          <Puff
+            height="80"
+            width="80"
+            radius={1}
+            color="#4fa94d"
+            ariaLabel="puff-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      )}
       <Toaster />
       <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
         <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
