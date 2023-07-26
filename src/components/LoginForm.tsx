@@ -1,13 +1,11 @@
 import * as React from 'react';
-import { Puff } from 'react-loader-spinner';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '@/redux/hooks';
 import { loginUser } from '@/redux/Features/user/userSlice';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
@@ -25,10 +23,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  // const [loginUser, { isSuccess, isLoading, isError }] = useLoginUserMutation();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user, isLoading } = useAppSelector((state) => state.reducer.user);
 
   const onSubmit = async (data: LoginFormInputs) => {
     await dispatch(loginUser(data));

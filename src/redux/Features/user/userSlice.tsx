@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { auth } from '@/lib/firebase';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -6,7 +7,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { useLoginUserMutation } from '../Books/BooksApi';
 import axios from 'axios';
 
 interface IUserState {
@@ -47,8 +47,8 @@ export const createUser = createAsyncThunk(
       'http://localhost:5000/api/v1/users/signup',
       datas
     );
-    console.log(data);
     const response = result.data.data;
+    console.log(response);
     return data.user.email;
   }
 );
@@ -61,12 +61,12 @@ export const loginUser = createAsyncThunk(
       password as string
     );
     const datas = { email, password };
-    // const result = await axios.post(
-    //   'http://localhost:5000/api/v1/auth/login',
-    //   datas
-    // );
+    const result = await axios.post(
+      'http://localhost:5000/api/v1/auth/login',
+      datas
+    );
 
-    // const response = await result.data.data.email;
+    const response = await result.data.data.email;
     return data.user.email;
   }
 );

@@ -26,7 +26,7 @@ export default function Navbar() {
     (state: { reducer: { user: any } }) => state.reducer.user
   );
   const [isTrue, setIsTrue] = useState<boolean>(false);
-  const [isSearch, setIsSearch] = useState();
+  const [isSearch, setIsSearch] = useState<string>('');
 
   const dispatch = useAppDispatch();
 
