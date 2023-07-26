@@ -11,7 +11,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 export default function BookDetails() {
   const { id } = useParams();
 
-  const { data, isLoading, error } = useSingleBookQuery(id, {
+  const { data } = useSingleBookQuery(id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
@@ -19,16 +19,13 @@ export default function BookDetails() {
     refetchOnMountOrArgChange: true,
     pollingInterval: 30000,
   });
-  console.log(isLoading);
-  console.log(error);
 
-  const [deleteBook, { isSuccess, isError }] = useDeleteBookMutation();
-
-  console.log(isSuccess, isError);
+  const [deleteBook] = useDeleteBookMutation();
 
   const navigate = useNavigate();
 
   const handleDeleteBook = async () => {
+    confirm('Are You Sure Delete Book');
     try {
       const response = await deleteBook(id);
       if ('data' in response) {

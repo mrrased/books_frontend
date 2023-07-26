@@ -23,12 +23,7 @@ export default function BookReview({ id }: IProps) {
     pollingInterval: 30000,
   });
 
-  const [postComment, { isLoading, isError, isSuccess }] =
-    usePostReviewMutation();
-
-  console.log(isError);
-  console.log(isSuccess);
-  console.log(isLoading, 'this is a review page');
+  const [postComment] = usePostReviewMutation();
 
   const { user } = useAppSelector((state) => state.reducer.user);
 

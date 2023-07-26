@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -9,14 +10,13 @@ import { useEffect } from 'react';
 
 export default function Login() {
   // const [loginUser, { isLoading, isSuccess, isError }] = useLoginUserMutation();
-  const { user, isLoading } = useAppSelector((state) => state.reducer.user);
+  const { user, isLoading } = useAppSelector(
+    (state: { reducer: { user: any } }) => state.reducer.user
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (user.email) {
-    console.log(user);
-  }
   const destination = location?.state?.from?.pathname || '/';
   useEffect(() => {
     if ((user.email, isLoading)) {

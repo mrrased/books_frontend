@@ -26,7 +26,7 @@ export default function Cart() {
   const { user } = useAppSelector((state) => state.reducer.user);
   const { data } = useGetUserWishListQuery(user?.email);
 
-  const [deleteWishList, { isLoading }] = useDeleteWishListMutation();
+  const [deleteWishList] = useDeleteWishListMutation();
 
   const handleUnWishList = (id: string) => {
     if (!user.email) {
@@ -86,13 +86,6 @@ export default function Cart() {
                   >
                     unWish
                   </p>
-                  {/* <Button
-                  variant="destructive"
-                  className="bg-red-500 hover:bg-red-400"
-                  onClick={() => dispatch(removeToFromCart(product))}
-                >
-                  <HiOutlineTrash size="20" />
-                </Button> */}
                 </div>
               </div>
             )

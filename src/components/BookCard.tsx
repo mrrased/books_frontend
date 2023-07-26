@@ -26,7 +26,6 @@ export default function BookCard({ book, handleWish, wishData }: IProps) {
     if (wishData) {
       const hasMatch = wishData.some((wish) => wish._id === book._id);
       setIsData(hasMatch);
-      console.log(hasMatch, '');
     }
   }, [wishData, book._id]);
 

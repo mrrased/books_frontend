@@ -41,9 +41,13 @@ export default function AddNewBook() {
 
       if ('data' in response) {
         toast.success(response.data.message);
-        console.log('inside condition');
+        setData({
+          title: '',
+          author: '',
+          genre: '',
+          year: '',
+        });
       }
-      console.log(response);
     } catch (err) {
       console.error('Error:', err);
     }

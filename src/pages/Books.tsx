@@ -190,6 +190,7 @@ export default function Books() {
         <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
           {booksData?.map((book: IBook) => (
             <BookCard
+              key={book?._id}
               book={book}
               handleWish={handleWish}
               wishData={wishData ? wishData.data : null}

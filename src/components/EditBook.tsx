@@ -8,7 +8,7 @@ import {
   useUpdateBookMutation,
 } from '@/redux/Features/Books/BooksApi';
 import toast, { Toaster } from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface formType {
   title: string;
@@ -24,11 +24,13 @@ const EditBook = () => {
     genre: '',
     year: '',
   });
+
   const { id } = useParams();
 
   const { data: singleData } = useSingleBookQuery(id);
 
   const [updateBook] = useUpdateBookMutation();
+  const navigate = useNavigate();
 
   // Handle Change Function
   const InputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -53,6 +55,9 @@ const EditBook = () => {
 
       if ('data' in response) {
         toast.success(response.data.message);
+        setTimeout(() => {
+          navigate(`/book-details/${id}`);
+        }, 1000);
       }
     } catch (err) {
       console.error('Error:', err);

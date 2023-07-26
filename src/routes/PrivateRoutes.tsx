@@ -15,9 +15,9 @@ const PrivateRoutes = ({ children }: IProps) => {
 
   useEffect(() => {
     // When the user data is available (user.email exists), set isUserDataLoaded to true
-    if (user?.email) {
+    setTimeout(() => {
       setIsUserDataLoaded(true);
-    }
+    }, 1500);
   }, [user]);
 
   if (!isUserDataLoaded || isLoading) {
