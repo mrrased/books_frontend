@@ -13,13 +13,15 @@ import {
 } from '../components/ui/dropdown-menu';
 import { HiOutlineSearch } from 'react-icons/hi';
 import Cart from '../components/WishList';
-import logo from '../assets/images/technet-logo.png';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/Features/user/userSlice';
 import { useState } from 'react';
 import { setSearchTerm } from '@/redux/Features/Books/BooksSlice';
+
+const imgLogo =
+  'https://www.clipartmax.com/png/middle/89-891042_letter-b-logo-design-free-b-letter-logo-design-png.png';
 
 export default function Navbar() {
   const { user } = useAppSelector(
@@ -45,7 +47,7 @@ export default function Navbar() {
       <div className="h-full w-full bg-white/60">
         <div className="flex items-center justify-between w-full md:max-w-7xl h-full mx-auto ">
           <div>
-            <img className="h-8" src={logo} alt="log" />
+            <img src={imgLogo} alt="" className="w-16 h-14" />
           </div>
           <div>
             <ul className="flex items-center">
