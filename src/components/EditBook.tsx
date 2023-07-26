@@ -4,7 +4,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import {
-  usePostBookMutation,
   useSingleBookQuery,
   useUpdateBookMutation,
 } from '@/redux/Features/Books/BooksApi';
@@ -27,9 +26,9 @@ const EditBook = () => {
   });
   const { id } = useParams();
 
-  const { data: singleData, isLoading, error } = useSingleBookQuery(id);
+  const { data: singleData } = useSingleBookQuery(id);
 
-  const [updateBook, { isLoading: postIsLoading }] = useUpdateBookMutation();
+  const [updateBook] = useUpdateBookMutation();
 
   // Handle Change Function
   const InputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -54,9 +53,7 @@ const EditBook = () => {
 
       if ('data' in response) {
         toast.success(response.data.message);
-        console.log('inside condition');
       }
-      console.log(response);
     } catch (err) {
       console.error('Error:', err);
     }

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import BookCard from '@/components/BookCard';
-import { Switch } from '@/components/ui/switch';
 
 import {
   useGetBooksQuery,
@@ -28,15 +27,13 @@ export default function Books() {
     pollingInterval: 30000,
   });
 
-  console.log(data, 'query data');
-
   const [userWishList] = useUserWishListMutation();
 
   const { user } = useAppSelector((state) => state.reducer.user);
   const { data: wishData } = useGetUserWishListQuery(user?.email);
 
-  const [pre, setPre] = useState();
-  const [pro, setPro] = useState();
+  const [pre, setPre] = useState<string>('');
+  const [pro, setPro] = useState<string>('');
   const [checkData, setCheckData] = useState<formType>({
     novel: false,
     fiction: false,
@@ -63,13 +60,6 @@ export default function Books() {
     });
   };
 
-  // const { priceRange, status } = useAppSelector((state) => state.product);
-  // const dispatch = useAppDispatch();
-
-  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
-    // console.log(e.target.value, 'set price');
-  };
-
   let booksData;
   // Handle Year Data Start
   if (
@@ -81,12 +71,12 @@ export default function Books() {
   ) {
     const booksFilter = data?.data?.filter((item: { year: string }) => {
       const itemYear = parseInt(item.year); // Convert 'year' to a number
-      return itemYear > pre;
+      return itemYear > parseInt(pre);
     });
-    console.log(booksFilter);
+
     booksData = booksFilter?.filter((item: { year: string }) => {
       const itemYear = parseInt(item.year);
-      return itemYear < pro;
+      return itemYear < parseInt(pro);
     });
   } else {
     booksData = data?.data;
@@ -115,14 +105,6 @@ export default function Books() {
     );
   }
 
-  // const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   // Update the state when the checkbox value changes
-  //   setIsNovelChecked(event.target.name);
-  //   console.log(isNovelChecked, 'isChecked working');
-  // };
-
-  console.log(booksData, 'outside');
-
   return (
     <>
       {isLoading && (
@@ -145,7 +127,6 @@ export default function Books() {
           <div>
             <h1 className="text-2xl uppercase">Filter Book</h1>
             <div className="mt-3">
-              <Switch id="in-stock" />
               <p className="hover:underline hover:cursor-pointer">Genre</p>
               <div className="space-x-2">
                 <input
@@ -184,13 +165,6 @@ export default function Books() {
               Publication year
             </p>
             <div className="max-w-xl">
-              {/* <Slider
-                defaultValue={[150]}
-                max={150}
-                min={0}
-                step={1}
-                onValueChange={(value) => handleSlider(value)}
-              /> */}
               <div className="flex space-x-2 ">
                 <input
                   type="text"

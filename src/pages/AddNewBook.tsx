@@ -21,7 +21,7 @@ export default function AddNewBook() {
     year: '',
   });
 
-  const [postBook, { isSuccess, isLoading, isError }] = usePostBookMutation();
+  const [postBook] = usePostBookMutation();
 
   // Handle Change Function
   const InputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
