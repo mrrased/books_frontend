@@ -61,12 +61,12 @@ export const loginUser = createAsyncThunk(
       password as string
     );
     const datas = { email, password };
-    const result = await axios.post(
-      'http://localhost:5000/api/v1/auth/login',
-      datas
-    );
+    // const result = await axios.post(
+    //   'http://localhost:5000/api/v1/auth/login',
+    //   datas
+    // );
 
-    const response = await result.data.data.email;
+    // const response = await result.data.data.email;
     return data.user.email;
   }
 );

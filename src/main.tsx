@@ -12,7 +12,7 @@ const persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={routes} />
       </PersistGate>
     </Provider>

@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/redux/hooks';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Puff } from 'react-loader-spinner';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -9,10 +9,18 @@ interface IProps {
 
 const PrivateRoutes = ({ children }: IProps) => {
   const { user, isLoading } = useAppSelector((state) => state.reducer.user);
+  const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
   const location = useLocation();
 
-  if (isLoading) {
+  useEffect(() => {
+    // When the user data is available (user.email exists), set isUserDataLoaded to true
+    if (user?.email) {
+      setIsUserDataLoaded(true);
+    }
+  }, [user]);
+
+  if (!isUserDataLoaded || isLoading) {
     return (
       <div className="flex justify-center items-center h-screen w-full">
         <Puff
@@ -28,7 +36,7 @@ const PrivateRoutes = ({ children }: IProps) => {
       </div>
     );
   }
-  if (!user.email && !isLoading) {
+  if (!user.email) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
   return children;

@@ -4,7 +4,15 @@ import bookSlice from './Features/Books/BooksSlice';
 import { api } from './api/apiSlice';
 import userReducer from './Features/user/userSlice';
 import storage from 'redux-persist/lib/storage';
-import { persistReducer } from 'redux-persist';
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 import { combineReducers } from '@reduxjs/toolkit';
 // import logger from 'redux-logger';
 
@@ -28,7 +36,11 @@ const store = configureStore({
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(api.middleware),
   //   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger),
   // devTools: true,
 });
