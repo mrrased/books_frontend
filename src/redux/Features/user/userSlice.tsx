@@ -47,8 +47,7 @@ export const createUser = createAsyncThunk(
       'http://localhost:5000/api/v1/users/signup',
       datas
     );
-    const response = result.data.data;
-    console.log(response);
+    result.data.data;
     return data.user.email;
   }
 );
@@ -66,7 +65,7 @@ export const loginUser = createAsyncThunk(
       datas
     );
 
-    const response = await result.data.data.email;
+    await result.data.data.email;
     return data.user.email;
   }
 );
