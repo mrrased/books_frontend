@@ -122,82 +122,93 @@ export default function Books() {
         </div>
       )}
       <Toaster />
-      <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
-        <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
-          <div>
-            <h1 className="text-2xl uppercase">Filter Book</h1>
-            <div className="mt-3">
-              <p className="hover:underline hover:cursor-pointer">Genre</p>
-              <div className="space-x-2">
-                <input
-                  type="checkbox"
-                  name="novel"
-                  id="novelCheckbox"
-                  checked={checkData.novel}
-                  onChange={InputValue}
-                />
-                <label htmlFor="novelCheckbox">Novel</label>
+      <>
+        <div className="grid grid-cols-12 max-w-7xl mx-auto relative my-5">
+          <div className="col-span-3"></div>
+          <div className="col-span-9">
+            <h1>
+              recent uploaded:{' '}
+              <span className="font-semibold text-lg">{booksData?.length}</span>
+            </h1>
+          </div>
+        </div>
+        <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
+          <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
+            <div>
+              <h1 className="text-2xl uppercase">Filter Book</h1>
+              <div className="mt-3">
+                <p className="hover:underline hover:cursor-pointer">Genre</p>
+                <div className="space-x-2">
+                  <input
+                    type="checkbox"
+                    name="novel"
+                    id="novelCheckbox"
+                    checked={checkData.novel}
+                    onChange={InputValue}
+                  />
+                  <label htmlFor="novelCheckbox">Novel</label>
+                </div>
+                <div className="space-x-2">
+                  <input
+                    type="checkbox"
+                    name="fiction"
+                    id="fictionCheckbox"
+                    checked={checkData.fiction}
+                    onChange={InputValue}
+                  />
+                  <label htmlFor="fictionCheckbox">Fiction</label>
+                </div>
+                <div className="space-x-2">
+                  <input
+                    type="checkbox"
+                    name="drama"
+                    id="dramaCheckbox"
+                    checked={checkData.drama}
+                    onChange={InputValue}
+                  />
+                  <label htmlFor="dramaCheckbox">Drama</label>
+                </div>
               </div>
-              <div className="space-x-2">
-                <input
-                  type="checkbox"
-                  name="fiction"
-                  id="fictionCheckbox"
-                  checked={checkData.fiction}
-                  onChange={InputValue}
-                />
-                <label htmlFor="fictionCheckbox">Fiction</label>
-              </div>
-              <div className="space-x-2">
-                <input
-                  type="checkbox"
-                  name="drama"
-                  id="dramaCheckbox"
-                  checked={checkData.drama}
-                  onChange={InputValue}
-                />
-                <label htmlFor="dramaCheckbox">Drama</label>
+            </div>
+            <div className="space-y-3 ">
+              <p className="hover:underline hover:cursor-pointer">
+                Publication year
+              </p>
+              <div className="max-w-xl">
+                <div className="flex space-x-2 ">
+                  <input
+                    type="text"
+                    placeholder="year"
+                    className="w-20 p-1 border border-slate-600 rounded-md "
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setPre(event.target.value)
+                    }
+                  />
+                  <p>to</p>
+                  <input
+                    type="text"
+                    placeholder="year"
+                    className="w-20 p-1 border border-slate-600 rounded-md "
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setPro(e.target.value)
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <div className="space-y-3 ">
-            <p className="hover:underline hover:cursor-pointer">
-              Publication year
-            </p>
-            <div className="max-w-xl">
-              <div className="flex space-x-2 ">
-                <input
-                  type="text"
-                  placeholder="year"
-                  className="w-20 p-1 border border-slate-600 rounded-md "
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setPre(event.target.value)
-                  }
-                />
-                <p>to</p>
-                <input
-                  type="text"
-                  placeholder="year"
-                  className="w-20 p-1 border border-slate-600 rounded-md "
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPro(e.target.value)
-                  }
-                />
-              </div>
-            </div>
+          <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
+            {booksData?.map((book: IBook) => (
+              <BookCard
+                key={book?._id}
+                book={book}
+                handleWish={handleWish}
+                wishData={wishData ? wishData.data : null}
+              />
+            ))}
           </div>
         </div>
-        <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
-          {booksData?.map((book: IBook) => (
-            <BookCard
-              key={book?._id}
-              book={book}
-              handleWish={handleWish}
-              wishData={wishData ? wishData.data : null}
-            />
-          ))}
-        </div>
-      </div>
+      </>
     </>
   );
 }

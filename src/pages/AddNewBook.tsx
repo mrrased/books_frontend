@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -7,10 +8,16 @@ import { usePostBookMutation } from '@/redux/Features/Books/BooksApi';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface formType {
+  // message?: any;
   title: string;
   author: string;
   genre: string;
   year: string;
+}
+
+interface PType {
+  error?: any;
+  data?: any;
 }
 
 export default function AddNewBook() {
@@ -36,21 +43,20 @@ export default function AddNewBook() {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
-    try {
-      const response = await postBook(data);
 
-      if ('data' in response) {
-        toast.success(response.data.message);
+    await postBook(data).then((result: PType) => {
+      if (result?.data?.statusCode === 200) {
+        toast.success(result.data.message);
         setData({
           title: '',
           author: '',
           genre: '',
           year: '',
         });
+      } else {
+        toast.error(result.error.data.message);
       }
-    } catch (err) {
-      console.error('Error:', err);
-    }
+    });
   };
 
   return (
