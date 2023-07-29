@@ -44,7 +44,7 @@ export const createUser = createAsyncThunk(
 
     const datas = { email, password, phoneNumber };
     const result = await axios.post(
-      'http://localhost:5000/api/v1/users/signup',
+      'https://books-backend-sever.onrender.com/api/v1/users/signup',
       datas
     );
     result.data.data;
@@ -61,7 +61,7 @@ export const loginUser = createAsyncThunk(
     );
     const datas = { email, password };
     const result = await axios.post(
-      'http://localhost:5000/api/v1/auth/login',
+      'https://books-backend-sever.onrender.com/api/v1/auth/login',
       datas
     );
 
