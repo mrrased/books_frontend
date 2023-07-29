@@ -1,4 +1,3 @@
-import React from 'react';
 import { RiFacebookBoxFill, RiInstagramLine } from 'react-icons/ri';
 
 const imgLogo =
